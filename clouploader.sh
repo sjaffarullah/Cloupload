@@ -7,14 +7,14 @@ if [ -f .env ]; then
 fi
 
 # Check for environmental variables
-if [-z "$AZURE_STORAGE_ACCOUNT" ] || [-z "$AZURE_STORAGE_CONTAINER" ] || [-z "$AZURE_STORAGE_KEY" ]; then
+if [ -z "$AZURE_STORAGE_ACCOUNT" ] || [ -z "$AZURE_STORAGE_CONTAINER" ] || [ -z "$AZURE_STORAGE_KEY" ]; then
     echo "Error: Azure Storage account, key, or container name not set. Please, run config.sh to configure."
     exit 1
 fi
 
 # Argument parsing
-FILEPATH = $1
-ENCRYPT = false
+FILEPATH="$1"
+ENCRYPT= false
 
 shift
 while [[ "$#" -gt 0 ]]; do
