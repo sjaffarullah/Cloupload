@@ -14,12 +14,12 @@ fi
 
 # Argument parsing
 FILEPATH="$1"
-ENCRYPT= false
+ENCRYPT=false
 
 shift
 while [[ "$#" -gt 0 ]]; do
     case $1 in
-    --encrypt) ENCRYPT = true ;;
+    --encrypt) ENCRYPT=true ;;
     *) echo "Unknown option: $1"; exit 1;;
     esac
     shift
@@ -34,7 +34,7 @@ fi
 # Encryption process if true
 if [ "$ENCRYPT" = true ]; then
     ENCRYPTED_FILE="${FILEPATH}.enc"
-    openssl aes-256-cbc -salt -in "$FILEPATH" -out "$ENCRYPTED_FILE" -k "securepassword"
+    openssl aes-256-cbc -pbkdf2 -salt -in "$FILEPATH" -out "$ENCRYPTED_FILE" -k "securepassword"
     if [ $? -ne 0 ]; then
     echo "Error: Encryption failed."
     exit 1
