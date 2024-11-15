@@ -39,7 +39,7 @@ if [ "$ENCRYPT" = true ]; then
     echo "Error: Encryption failed."
     exit 1
   fi
-  FILEPATH=$ENCRYPTED_FILE  
+  FILEPATH="$ENCRYPTED_FILE"  
 fi
 
 # Check if file exists in Azure blob storage
@@ -58,8 +58,21 @@ if [ "$EXISTS" = "True" ]; then
   esac
 fi
 
-# Upload the file
-az storage blob upload --account-name "$AZURE_STORAGE_ACCOUNT" --account-key "$AZURE_STORAGE_KEY" --container-name "$AZURE_STORAGE_CONTAINER" --name "$BASENAME" --file "$FILEPATH"
+# Upload the file with dynamic overwrite handling
+if [ "$OPTION" = "o" ]; then
+  az storage blob upload --account-name "$AZURE_STORAGE_ACCOUNT" \
+    --account-key "$AZURE_STORAGE_KEY" \
+    --container-name "$AZURE_STORAGE_CONTAINER" \
+    --name "$BASENAME" \
+    --file "$FILEPATH" \
+    --overwrite
+else
+  az storage blob upload --account-name "$AZURE_STORAGE_ACCOUNT" \
+    --account-key "$AZURE_STORAGE_KEY" \
+    --container-name "$AZURE_STORAGE_CONTAINER" \
+    --name "$BASENAME" \
+    --file "$FILEPATH"
+fi
 
 # Check for successful upload
 if [ $? -eq 0 ]; then
