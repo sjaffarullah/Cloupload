@@ -33,8 +33,11 @@ fi
 
 # Encryption process if true
 if [ "$ENCRYPT" = true ]; then
-    ENCRYPTED_FILE="${FILEPATH}.enc"
-    openssl aes-256-cbc -pbkdf2 -salt -in "$FILEPATH" -out "$ENCRYPTED_FILE" -k "securepassword"
+  echo "Please, note that the password cannot be recovered if forgotten, and the file cannot be decrypted without it."
+  read -sp "Enter a password for encryption: " PASSWORD
+  echo  # Add a newline after the password prompt
+  ENCRYPTED_FILE="${FILEPATH}.enc"
+  openssl aes-256-cbc -pbkdf2 -salt -in "$FILEPATH" -out "$ENCRYPTED_FILE" -k "$PASSWORD"
     if [ $? -ne 0 ]; then
     echo "Error: Encryption failed."
     exit 1
