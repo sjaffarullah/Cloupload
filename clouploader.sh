@@ -21,7 +21,7 @@ shift
 while [[ "$#" -gt 0 ]]; do
     case $1 in
     --encrypt) ENCRYPT=true ;;
-    --link) LINK=false ;;
+    --link) LINK=true ;;
     *) echo "Unknown option: $1"; exit 1;;
     esac
     shift
@@ -45,18 +45,6 @@ if [ "$ENCRYPT" = true ]; then
     exit 1
   fi
   FILEPATH="$ENCRYPTED_FILE"  
-fi
-
-# Generating shaerable link if true
-if [ "$LINK" = true ]; then
-  EXPIRY=$(date -u -d '1 day' +%Y-%m-%dT%H:%MZ)
-  SAS_TOKEN=$(az storage blob generate-sas --account-name "$AZURE_STORAGE_ACCOUNT" \
-    --account-key "$AZURE_STORAGE_KEY" \
-    --container-name "$AZURE_STORAGE_CONTAINER" \
-    --name "$BASENAME" \
-    --permissions r \
-    --expiry "$EXPIRY" --output tsv)
-  echo "Shareable Link: https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/$AZURE_STORAGE_CONTAINER/$BASENAME?$SAS_TOKEN"
 fi
 
 # Check if file exists in Azure blob storage
@@ -97,4 +85,16 @@ if [ $? -eq 0 ]; then
 else
   echo "Error: Upload failed."
   exit 1
+fi
+
+# Generating shaerable link if true
+if [ "$LINK" = true ]; then
+  EXPIRY=$(date -u -d '1 day' +%Y-%m-%dT%H:%MZ)
+  SAS_TOKEN=$(az storage blob generate-sas --account-name "$AZURE_STORAGE_ACCOUNT" \
+    --account-key "$AZURE_STORAGE_KEY" \
+    --container-name "$AZURE_STORAGE_CONTAINER" \
+    --name "$BASENAME" \
+    --permissions r \
+    --expiry "$EXPIRY" --output tsv)
+  echo "Shareable Link: https://$AZURE_STORAGE_ACCOUNT.blob.core.windows.net/$AZURE_STORAGE_CONTAINER/$BASENAME?$SAS_TOKEN"
 fi
