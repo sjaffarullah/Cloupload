@@ -14,16 +14,16 @@ A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
 
 
 ## How to setup
-1. **Clone the Repository to your local machine and move into the directory**
+1. **Clone the Repository** to your local machine and move into the directory
    ```bash
    git clone https://github.com/yourusername/clouduploader.git
    cd clouduploader
    ```
-2. **Run the config.sh script to configure your Azure Storage credentials and create a .env file**
+2. **Run the config.sh script** to configure your Azure Storage credentials and create a .env file
    ```bash
    ./setup.sh
    ```
-3. **Verify the .env file has been created with the correct values**
+3. **Verify the .env file** has been created with the correct values
    ```bash
    cat .env
    ```
