@@ -28,7 +28,7 @@ A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
    ```
 
 ## How to use
-- Move into the directory
+- **Make sure you are in the cloned directory**
 - To upload a file to your Azure blob storage
 ```bash
 ./clouduploader.sh /path/to/file
