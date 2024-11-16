@@ -98,4 +98,4 @@ A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
    - **Windows**: Run Git Bash or Command Prompt with Administrator privileges.
 
 ## Contribution
-Feel free to open requests or [contact me](suhail2k3@gmail.com)
+Feel free to open requests or [contact me](mailto:suhail2k3@gmail.com)
