@@ -3,13 +3,13 @@ A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
 
 ## Features
 - Generate time-limited shareable links for uploaded files.
-- Optional file encryption with AES-256.
+- Optional file encryption using GPG with AES-256 encryption.
 - Supports dynamic handling of existing files (overwrite, skip, rename).
 
 ## Prerequisites
 - **Active Azure Subscription**: Ensure you have an Azure subscription with permissions to create and manage Blob Storage containers.
 - **Azure CLI**: Install and log in using `az login`. [Installation Guide](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
-- **OpenSSL**: Required for file encryption. [Installation Guide](https://openssl-library.org/source/index.html)
+- **GPG (GNU Privacy Guard)**: Required for file encryption. [Installation Guide](https://www.gnupg.org/download/index.html)
 - **Bash**: A Bash shell is required (Linux, macOS, or Git Bash on Windows).
 
 ## How to setup
@@ -62,6 +62,12 @@ A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
      ```bash
      ./setup.sh
      ```
+   Check the .env file to ensure your Azure credentials are saved:
+   ```
+   AZURE_STORAGE_ACCOUNT=<your_storage_account>
+   AZURE_STORAGE_CONTAINER=<your_container_name>
+   AZURE_STORAGE_KEY=<your_storage_key>
+   ```
 
 4. **File Not Found**  
    - Ensure the file/directory path is correct and exists.  
@@ -71,18 +77,8 @@ A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
      dir C:\path\to\file  # Windows (Command Prompt or PowerShell)
      ```
 
-5. **OpenSSL Not Installed**  
-   - Install OpenSSL:
-     - **Linux**: `sudo apt install openssl` (Debian/Ubuntu) or `sudo yum install openssl` (RHEL/CentOS)
-     - **macOS**: Pre-installed, or update with Homebrew: `brew install openssl`
-     - **Windows**: Included in Git Bash or install manually.
 
-   - Verify Installation:
-     ```bash
-     openssl version
-     ```
-
-6. **Upload Fails**  
+5. **Upload Fails**  
    - Check Azure credentials in `.env`:
      ```bash
      cat .env
@@ -92,7 +88,7 @@ A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
      az storage blob list --account-name <YourStorageAccount> --container-name <YourContainerName>
      ```
 
-7. **Permission Denied Errors**  
+6. **Permission Denied Errors**  
    - **Linux/macOS**: Ensure proper script permissions:
      ```bash
      chmod +x clouduploader.sh
