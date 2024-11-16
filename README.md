@@ -17,7 +17,7 @@ A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
 ## How to setup
 1. **Clone the Repository** to your local machine and move into the directory
    ```bash
-   git clone https://github.com/yourusername/clouduploader.git
+   git clone https://github.com/sjaffarullah/Cloupload.git
    cd clouduploader
    ```
 2. **Run the config.sh script** to configure your Azure Storage credentials and create a .env file
