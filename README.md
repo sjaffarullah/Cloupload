@@ -1,7 +1,7 @@
 # Cloupload
 A Bash-Based Azure CLI Tool for Seamless File Uploads to Azure Blob Storage
 
-![Cloupload](cloupload.PNG)
+![Cloupload](vscloupload.PNG)
 
 ## Features
 - Generate time-limited shareable links for uploaded files.
