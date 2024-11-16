@@ -35,16 +35,17 @@ fi
 
 # Encryption process if true
 if [ "$ENCRYPT" = true ]; then
-  echo "Please, note that the password cannot be recovered if forgotten, and the file cannot be decrypted without it."
-  read -sp "Enter a password for encryption: " PASSWORD
-  echo  # Add a newline after the password prompt
-  ENCRYPTED_FILE="${FILEPATH}.enc"
-  openssl aes-256-cbc -pbkdf2 -salt -in "$FILEPATH" -out "$ENCRYPTED_FILE" -k "$PASSWORD"
+  echo "Warning: The password cannot be recovered if forgotten. Decryption requires the password."
+    read -sp "Enter a password for encryption: " PASSWORD
+    echo
+    ENCRYPTED_FILE="${FILEPATH}.gpg"
+    echo "Encrypting file with GPG..."
+    echo "$PASSWORD" | gpg --batch --yes --passphrase-fd 0 --symmetric --cipher-algo AES256 --output "$ENCRYPTED_FILE" "$FILEPATH"
     if [ $? -ne 0 ]; then
-    echo "Error: Encryption failed."
-    exit 1
-  fi
-  FILEPATH="$ENCRYPTED_FILE"  
+        echo "Error: Encryption failed."
+        exit 1
+    fi
+    FILEPATH="$ENCRYPTED_FILE"
 fi
 
 # Check if file exists in Azure blob storage
@@ -69,14 +70,13 @@ if [ "$OPTION" = "o" ]; then
     --account-key "$AZURE_STORAGE_KEY" \
     --container-name "$AZURE_STORAGE_CONTAINER" \
     --name "$BASENAME" \
-    --file "$FILEPATH" \
-    --overwrite
+    --file "$FILEPATH" --overwrite >/dev/null 2>&1
 else
   az storage blob upload --account-name "$AZURE_STORAGE_ACCOUNT" \
     --account-key "$AZURE_STORAGE_KEY" \
     --container-name "$AZURE_STORAGE_CONTAINER" \
     --name "$BASENAME" \
-    --file "$FILEPATH" 
+    --file "$FILEPATH" >/dev/null 2>&1
 fi
 
 # Check for successful upload
