@@ -55,6 +55,7 @@ EXISTS=$(az storage blob exists --account-name "$AZURE_STORAGE_ACCOUNT" --accoun
 if [ "$EXISTS" = "True" ]; then
     echo " File already exists in the cloud storage."
     read -p "Choose action - Overwrite (o), skip (s), or Rename (r): " OPTION
+    OPTION=$(echo "$OPTION" | tr '[:upper:]' '[:lower:]')
     case $OPTION in
      o) echo "Overwriting file..." ;;
      s) echo "Upload skipped."; exit 0 ;;
